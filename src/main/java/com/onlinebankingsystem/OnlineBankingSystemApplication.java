@@ -23,7 +23,7 @@ public class OnlineBankingSystemApplication implements WebMvcConfigurer {
 	private static final HashSet<String> TRUSTED_SOURCES = new HashSet<String>();
 
 	static {
-		TRUSTED_SOURCES.add("http://137.184.224.241");
+		TRUSTED_SOURCES.add("http://137.184.224.241:3000");
 	}
 
 	// method to add trusted sources via application context
