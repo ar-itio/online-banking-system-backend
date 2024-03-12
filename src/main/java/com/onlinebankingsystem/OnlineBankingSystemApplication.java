@@ -15,7 +15,7 @@ import com.onlinebankingsystem.resource.BankAccountResource;
 @SpringBootApplication
 @EnableWebMvc
 public class OnlineBankingSystemApplication implements WebMvcConfigurer {
-
+	
 	private final Logger LOG = LoggerFactory.getLogger(BankAccountResource.class);
 
 	private static int ACCESS_CONTROL_MAX_AGE_IN_SECONDS = 12 * 60 * 60;
@@ -35,30 +35,28 @@ public class OnlineBankingSystemApplication implements WebMvcConfigurer {
 		SpringApplication.run(OnlineBankingSystemApplication.class, args);
 	}
 
-	// @Bean
-	// public WebMvcConfigurer corsConfigurer() {
-	// return new WebMvcConfigurer() {
-	// @Override
-	// public void addCorsMappings(CorsRegistry registry) {
-	// registry.addMapping("/**")
-	// .allowedOrigins("*") // Replace with your allowed origins
-	// .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-	// .allowedHeaders("Authorization", "Content-Type") // Specify the headers you
-	// want to allow
-	// .allowCredentials(true);
-	// }
-	// };
-	// }
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurer() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				registry.addMapping("/**")
+//                .allowedOrigins("*") // Replace with your allowed origins
+//                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//                .allowedHeaders("Authorization", "Content-Type") // Specify the headers you want to allow
+//                .allowCredentials(true);
+//			}
+//		};
+//	}
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 
 		LOG.info(TRUSTED_SOURCES.toString());
-
+		
 		registry.addMapping("/**")
 				// .allowedOrigins(TRUSTED_SOURCES.toArray(new String[TRUSTED_SOURCES.size()]))
-				.allowedOrigins("http://137.184.224.241:3000","http://137.184.224.241","*")
-				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
+				.allowedOrigins("http://137.184.224.241:3000").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
 				.allowedHeaders("origin", "content-type", "accept", "authorization", "user-agent", "host",
 						"X-Forwarded-For", "X-Forwarded-Proto", "X-Forwarded-Port", "X-Redirected-Path",
 						"X-Redirected-Params", "X-TraceId", "X-Feature-Flags", "X-Partner-Id")
