@@ -113,7 +113,7 @@ public class Constants {
 			return this.status;
 		}
 	}
-	
+
 	public enum BeneficiaryStatus {
 		ACTIVE("Active"), DEACTIVATED("Deactivated");
 
@@ -128,4 +128,21 @@ public class Constants {
 		}
 	}
 
+	public enum FeeType {
+		DEBIT_TRANSACTION("Debit Transaction"),
+		CREDIT_TRANSACTION("Credit Transaction"),
+		SET_UP_FEE("Set Up Fee"),
+		MONTHLY_FEE("Monthly Fee"),
+		YEARLY_FEE("Yearly Fee");
+
+		private String type;
+
+		private FeeType(String type) {
+			this.type = type;
+		}
+
+		public String value() {
+			return this.type;
+		}
+	}
 }
