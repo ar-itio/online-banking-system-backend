@@ -1,6 +1,7 @@
 package com.onlinebankingsystem.dto;
 
 public class UserLoginRequest {
+	private int userId; // for reset password
 
 	private String emailId;
 
@@ -32,4 +33,11 @@ public class UserLoginRequest {
 		this.role = role;
 	}
 
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 }

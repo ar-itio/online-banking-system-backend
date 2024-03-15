@@ -587,7 +587,89 @@ public class UserResource {
 		return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
 	}
 	
-	
-	
+	public ResponseEntity<CommonApiResponse> forgetPassword(UserLoginRequest request) {
+
+		LOG.info("Received request for forget password");
+
+		CommonApiResponse response = new CommonApiResponse();
+
+		if (request == null || request.getEmailId() == null) {
+			response.setResponseMessage("bad request - missing input");
+			response.setSuccess(true);
+
+			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		User existingUser = this.userService.getUserByEmail(request.getEmailId());
+
+		if (existingUser == null) {
+			response.setResponseMessage("User with this Email Id not registered, please register & login!!!");
+			response.setSuccess(false);
+
+			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
+		}
+
+		
+		sendResetEmail(existingUser, "Reset Password - Online Banking");
+		
+		response.setResponseMessage("We have sent you reset password Link on your email id!!!");
+		response.setSuccess(true);
+
+		return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
+	}
+	private void sendResetEmail(User user, String subject) {
+
+		StringBuilder emailBody = new StringBuilder();
+		emailBody.append("<html><body>");
+		emailBody.append("<h3>Dear " + user.getName() + ",</h3>");
+		emailBody.append("<p>You can reset the password by using the below link.</p>");
+		emailBody.append("</br>");
+		emailBody.append("<a href='http://localhost:3000/"+user.getId()+"/reset-password'>Click me to reset the password</a>");
+
+		emailBody.append("<p>Best Regards,<br/>Bank</p>");
+
+		emailBody.append("</body></html>");
+
+		this.emailService.sendEmail(user.getEmail(), subject, emailBody.toString());
+	}
+	public ResponseEntity<CommonApiResponse> resetPassword(UserLoginRequest request) {
+
+		LOG.info("Received request for forget password");
+
+		CommonApiResponse response = new CommonApiResponse();
+
+		if (request == null || request.getUserId() == 0 || request.getPassword() == null) {
+			response.setResponseMessage("bad request - missing input");
+			response.setSuccess(true);
+
+			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		User existingUser = this.userService.getUserById(request.getUserId());
+
+		if (existingUser == null) {
+			response.setResponseMessage("User with this Email Id not registered, please register & login!!!");
+			response.setSuccess(false);
+
+			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
+		}
+
+		existingUser.setPassword(passwordEncoder.encode(request.getPassword()));
+		
+		User updatedPassword = this.userService.updateUser(existingUser);
+		
+		if(updatedPassword == null) {
+			response.setResponseMessage("Failed to Reset the password!!!");
+			response.setSuccess(false);
+
+			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.setResponseMessage("Password Reset Successful!!!");
+		response.setSuccess(true);
+
+		return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
+	}
+
 
 }

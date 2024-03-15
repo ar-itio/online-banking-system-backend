@@ -28,83 +28,93 @@ import io.swagger.v3.oas.annotations.Operation;
 @RequestMapping("api/user/")
 @CrossOrigin
 public class UserController {
-	
+
 	@Autowired
 	private UserResource userResource;
-	
+
 	// for customer and bank register
 	@PostMapping("register")
-	@Operation(summary =  "Api to register customer or bank user")
+	@Operation(summary = "Api to register customer or bank user")
 	public ResponseEntity<CommonApiResponse> registerUser(@RequestBody RegisterUserRequestDto request) {
 		return this.userResource.registerUser(request);
 	}
-	
+
 	// RegisterUserRequestDto, we will set only email, password & role from UI
 	@PostMapping("/admin/register")
 	public ResponseEntity<CommonApiResponse> registerAdmin(@RequestBody RegisterUserRequestDto request) {
 		return userResource.registerAdmin(request);
 	}
-	
+
 	@PostMapping("login")
-	@Operation(summary =  "Api to login any User")
+	@Operation(summary = "Api to login any User")
 	public ResponseEntity<UserLoginResponse> login(@RequestBody UserLoginRequest userLoginRequest) {
 		return userResource.login(userLoginRequest);
 	}
-	
+
 	@GetMapping("/fetch/role")
-	@Operation(summary =  "Api to get Users By Role")
+	@Operation(summary = "Api to get Users By Role")
 	public ResponseEntity<UserListResponseDto> fetchAllBankUsers(@RequestParam("role") String role) {
 		return userResource.getUsersByRole(role);
 	}
-	
+
 	@GetMapping("/fetch/id")
-	@Operation(summary =  "Api to get Users By id")
+	@Operation(summary = "Api to get Users By id")
 	public ResponseEntity<UserListResponseDto> fetchById(@RequestParam("id") int id) {
 		return userResource.fetchById(id);
 	}
-	
+
 	@GetMapping("/fetch/customer/pending/request")
-	@Operation(summary =  "Api to get Users By Role")
+	@Operation(summary = "Api to get Users By Role")
 	public ResponseEntity<UserListResponseDto> fetchPendingCustomers() {
 		return userResource.fetchPendingCustomers();
 	}
-	
+
 	@GetMapping("/fetch/bank/managers")
-	@Operation(summary =  "Api to get Bank Managers who is not assigned to any other Bank")
+	@Operation(summary = "Api to get Bank Managers who is not assigned to any other Bank")
 	public ResponseEntity<UserListResponseDto> fetchBankManagers() {
 		return userResource.fetchBankManagers();
 	}
-	
+
 	@PostMapping("update/status")
-	@Operation(summary =  "Api to update the user status")
+	@Operation(summary = "Api to update the user status")
 	public ResponseEntity<CommonApiResponse> updateUserStatus(@RequestBody UserStatusUpdateRequestDto request) {
 		return userResource.updateUserStatus(request);
 	}
-	
+
 	@GetMapping("/bank/customers")
-	@Operation(summary =  "Api to get Bank Customers by bank id")
+	@Operation(summary = "Api to get Bank Customers by bank id")
 	public ResponseEntity<UserListResponseDto> fetchAllBankCustomersByBankId(@RequestParam("bankId") int bankId) {
 		return userResource.fetchBankCustomerByBankId(bankId);
 	}
-	
-//	@GetMapping("/bank/customer/search")
-//	@Operation(summary =  "Api to get Bank Customers by bank id")
-//	public ResponseEntity<UserListResponseDto> searchBankCustomer(@RequestParam("bankId") int bankId, @RequestParam("customerName") String customerName) {
-//		return userResource.searchBankCustomer(bankId, customerName);
-//	}
-	
+
+	// @GetMapping("/bank/customer/search")
+	// @Operation(summary = "Api to get Bank Customers by bank id")
+	// public ResponseEntity<UserListResponseDto>
+	// searchBankCustomer(@RequestParam("bankId") int bankId,
+	// @RequestParam("customerName") String customerName) {
+	// return userResource.searchBankCustomer(bankId, customerName);
+	// }
+
 	@GetMapping("/all/customer/search")
-	@Operation(summary =  "Api to get all Bank Customers by customer name")
+	@Operation(summary = "Api to get all Bank Customers by customer name")
 	public ResponseEntity<UserListResponseDto> searchBankCustomer(@RequestParam("customerName") String customerName) {
 		return userResource.searchBankCustomer(customerName);
 	}
-	
-	@PutMapping("/update/profile")	
-	@Operation(summary =  "Api to update the user profile")
+
+	@PutMapping("/update/profile")
+	@Operation(summary = "Api to update the user profile")
 	public ResponseEntity<CommonApiResponse> updateProfile(@RequestBody RegisterUserRequestDto request) {
 		return this.userResource.updateUserprofile(request);
 	}
-	
-	
-	
+
+	@PostMapping("/send/reset-password/mail")
+	public ResponseEntity<CommonApiResponse> forgetPassword(@RequestBody UserLoginRequest request) {
+		return userResource.forgetPassword(request);
+	}
+
+	@PostMapping("/reset-password")
+	public ResponseEntity<CommonApiResponse> resetPassword(@RequestBody UserLoginRequest request) {
+		return userResource.resetPassword(request);
+	}
+
 }
