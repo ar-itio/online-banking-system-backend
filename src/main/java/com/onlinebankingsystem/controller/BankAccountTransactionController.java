@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("api/bank/transaction")
-@CrossOrigin(origins = "http://137.184.224.241:3000")
+@CrossOrigin(origins = "https://api.neo-v1.oyefin.com")
 public class BankAccountTransactionController {
 
 	@Autowired
