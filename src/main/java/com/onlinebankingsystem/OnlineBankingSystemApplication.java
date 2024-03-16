@@ -23,7 +23,7 @@ public class OnlineBankingSystemApplication implements WebMvcConfigurer {
 	private static final HashSet<String> TRUSTED_SOURCES = new HashSet<String>();
 
 	static {
-		TRUSTED_SOURCES.add("https://api.neo-v1.oyefin.com");
+		TRUSTED_SOURCES.add("https://neo-v1.oyefin.com");
 	}
 
 	// method to add trusted sources via application context
@@ -57,7 +57,7 @@ public class OnlineBankingSystemApplication implements WebMvcConfigurer {
 
 		registry.addMapping("/**")
 				// .allowedOrigins(TRUSTED_SOURCES.toArray(new String[TRUSTED_SOURCES.size()]))
-				.allowedOrigins("https://api.neo-v1.oyefin.com")
+				.allowedOrigins("https://neo-v1.oyefin.com")
 				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
 				.allowedHeaders("origin", "content-type", "accept", "authorization", "user-agent", "host",
 						"X-Forwarded-For", "X-Forwarded-Proto", "X-Forwarded-Port", "X-Redirected-Path",
