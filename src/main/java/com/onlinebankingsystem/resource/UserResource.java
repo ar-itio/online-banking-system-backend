@@ -400,34 +400,36 @@ public class UserResource {
 		return new ResponseEntity<UserListResponseDto>(response, HttpStatus.OK);
 	}
 
-//	public ResponseEntity<UserListResponseDto> searchBankCustomer(int bankId, String customerName) {
-//
-//		UserListResponseDto response = new UserListResponseDto();
-//
-//		List<User> users = new ArrayList<>();
-//		
-//		users = this.userService.searchBankCustomerByNameAndRole(customerName, bankId, UserRole.ROLE_CUSTOMER.value());
-//		
-//		if(!users.isEmpty()) {
-//			response.setUsers(users);
-//		}
-//		
-//		response.setResponseMessage("User Fetched Successfully");
-//		response.setSuccess(true);
-//
-//		// Convert the object to a JSON string
-//		String jsonString = null;
-//		try {
-//			jsonString = objectMapper.writeValueAsString(response);
-//		} catch (JsonProcessingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		System.out.println(jsonString);
-//
-//		return new ResponseEntity<UserListResponseDto>(response, HttpStatus.OK);
-//	}
+	// public ResponseEntity<UserListResponseDto> searchBankCustomer(int bankId,
+	// String customerName) {
+	//
+	// UserListResponseDto response = new UserListResponseDto();
+	//
+	// List<User> users = new ArrayList<>();
+	//
+	// users = this.userService.searchBankCustomerByNameAndRole(customerName,
+	// bankId, UserRole.ROLE_CUSTOMER.value());
+	//
+	// if(!users.isEmpty()) {
+	// response.setUsers(users);
+	// }
+	//
+	// response.setResponseMessage("User Fetched Successfully");
+	// response.setSuccess(true);
+	//
+	// // Convert the object to a JSON string
+	// String jsonString = null;
+	// try {
+	// jsonString = objectMapper.writeValueAsString(response);
+	// } catch (JsonProcessingException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	//
+	// System.out.println(jsonString);
+	//
+	// return new ResponseEntity<UserListResponseDto>(response, HttpStatus.OK);
+	// }
 
 	public ResponseEntity<UserListResponseDto> searchBankCustomer(String customerName) {
 
@@ -554,11 +556,11 @@ public class UserResource {
 
 		existingUser.setCity(request.getCity());
 		existingUser.setContact(request.getContact());
-		
-		if(org.apache.commons.lang3.StringUtils.isNotEmpty(request.getGender())) {
+
+		if (org.apache.commons.lang3.StringUtils.isNotEmpty(request.getGender())) {
 			existingUser.setGender(request.getGender());
 		}
-		
+
 		existingUser.setName(request.getName());
 		existingUser.setPincode(request.getPincode());
 		existingUser.setStreet(request.getStreet());
@@ -586,7 +588,7 @@ public class UserResource {
 
 		return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
 	}
-	
+
 	public ResponseEntity<CommonApiResponse> forgetPassword(UserLoginRequest request) {
 
 		LOG.info("Received request for forget password");
@@ -609,14 +611,14 @@ public class UserResource {
 			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
 		}
 
-		
 		sendResetEmail(existingUser, "Reset Password - Online Banking");
-		
+
 		response.setResponseMessage("We have sent you reset password Link on your email id!!!");
 		response.setSuccess(true);
 
 		return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
 	}
+
 	private void sendResetEmail(User user, String subject) {
 
 		StringBuilder emailBody = new StringBuilder();
@@ -624,7 +626,8 @@ public class UserResource {
 		emailBody.append("<h3>Dear " + user.getName() + ",</h3>");
 		emailBody.append("<p>You can reset the password by using the below link.</p>");
 		emailBody.append("</br>");
-		emailBody.append("<a href='http://localhost:3000/"+user.getId()+"/reset-password'>Click me to reset the password</a>");
+		emailBody.append("<a href='http://localhost:3000/" + user.getId()
+				+ "/reset-password'>Click me to reset the password</a>");
 
 		emailBody.append("<p>Best Regards,<br/>Bank</p>");
 
@@ -632,6 +635,7 @@ public class UserResource {
 
 		this.emailService.sendEmail(user.getEmail(), subject, emailBody.toString());
 	}
+
 	public ResponseEntity<CommonApiResponse> resetPassword(UserLoginRequest request) {
 
 		LOG.info("Received request for forget password");
@@ -645,6 +649,12 @@ public class UserResource {
 			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
 		}
 
+		if (!request.getPassword().equals(request.getConfirmPassword())) {
+			response.setResponseMessage("Password and Confirm Password do not match");
+			response.setSuccess(true);
+			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
+		}
+
 		User existingUser = this.userService.getUserById(request.getUserId());
 
 		if (existingUser == null) {
@@ -655,21 +665,20 @@ public class UserResource {
 		}
 
 		existingUser.setPassword(passwordEncoder.encode(request.getPassword()));
-		
+
 		User updatedPassword = this.userService.updateUser(existingUser);
-		
-		if(updatedPassword == null) {
+
+		if (updatedPassword == null) {
 			response.setResponseMessage("Failed to Reset the password!!!");
 			response.setSuccess(false);
 
 			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		response.setResponseMessage("Password Reset Successful!!!");
 		response.setSuccess(true);
 
 		return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
 	}
-
 
 }

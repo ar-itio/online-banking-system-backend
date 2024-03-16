@@ -6,7 +6,7 @@ public class UserLoginRequest {
 	private String emailId;
 
 	private String password;
-
+	private String confirmPassword;
 	private String role;
 
 	public String getEmailId() {
@@ -40,4 +40,13 @@ public class UserLoginRequest {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
 }
