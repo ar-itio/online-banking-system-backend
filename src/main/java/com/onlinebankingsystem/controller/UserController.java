@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("api/user/")
-@CrossOrigin
+@CrossOrigin(origins = "https://neo-v1.oyefin.com")
 public class UserController {
 
 	@Autowired
