@@ -1,7 +1,6 @@
 package com.onlinebankingsystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,20 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinebankingsystem.dto.CommonApiResponse;
-import com.onlinebankingsystem.dto.PasswordResetRequestDto;
 import com.onlinebankingsystem.dto.RegisterUserRequestDto;
 import com.onlinebankingsystem.dto.UserListResponseDto;
 import com.onlinebankingsystem.dto.UserLoginRequest;
 import com.onlinebankingsystem.dto.UserLoginResponse;
 import com.onlinebankingsystem.dto.UserStatusUpdateRequestDto;
-import com.onlinebankingsystem.entity.User;
 import com.onlinebankingsystem.resource.UserResource;
 
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("api/user/")
-@CrossOrigin(origins = "https://neo-v1.oyefin.com")
+@CrossOrigin
 public class UserController {
 
 	@Autowired
