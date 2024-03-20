@@ -1,13 +1,9 @@
 package com.onlinebankingsystem.resource;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +36,6 @@ import com.onlinebankingsystem.utility.Constants.IsAccountLinked;
 import com.onlinebankingsystem.utility.Constants.UserRole;
 import com.onlinebankingsystem.utility.Constants.UserStatus;
 import com.onlinebankingsystem.utility.TransactionIdGenerator;
-
-import io.micrometer.common.util.StringUtils;
 
 @Component
 public class UserResource {
@@ -646,12 +640,6 @@ public class UserResource {
 			response.setResponseMessage("bad request - missing input");
 			response.setSuccess(true);
 
-			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
-		}
-
-		if (!request.getPassword().equals(request.getConfirmPassword())) {
-			response.setResponseMessage("Password and Confirm Password do not match");
-			response.setSuccess(true);
 			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
 		}
 
